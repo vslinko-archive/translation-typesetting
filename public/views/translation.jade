@@ -18,17 +18,13 @@ table.translations
       td.translations-cell 05/19/13 12:29pm
 
 table.translation
-  tr(ng-repeat="a in [null, null, null, null, null]")
-    td.translation-source Селекция бренда допускает конструктивный медиамикс, оптимизируя бюджеты.
-    td.translation-translation
-      textarea.autoresize.translation-translation-textarea Selection of the brand allows a constructive media mix, optimizing budgets.
-  tr
-    td(colspan="2")
+  tr(ng-repeat="translation in translations")
+    td.translation-source(ng-show="translation.content") {{ translation.content }}
+    td.translation-translation(ng-show="translation.content")
+      textarea.autoresize.translation-translation-textarea {{ translation.translation }}
+
+    td(colspan="2", ng-hide="translation.content")
       hr.translation-break
-  tr(ng-repeat="a in [null, null, null, null, null]")
-    td.translation-source Селекция бренда допускает конструктивный медиамикс, оптимизируя бюджеты.
-    td.translation-translation
-      textarea.autoresize.translation-translation-textarea Selection of the brand allows a constructive media mix, optimizing budgets.
 
 .signin-buttons
   button.signin-buttons-button(type="submit") done

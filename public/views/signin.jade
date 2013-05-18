@@ -2,10 +2,10 @@ h1.title Sign in
 
 form.signin
   label.signin-label(for="email") Email
-  input.signin-input#email(type="text")
+  input.signin-input#email(type="text", ng-model="user.username")
 
   label.signin-label(for="password") Password
-  input.signin-input#password(type="password")
+  input.signin-input#password(type="password", ng-model="user.password")
 
   .signin-buttons
     button.signin-buttons-button(type="submit", ng-click="signin()") sign in

@@ -1,5 +1,6 @@
 translationTypesetting = angular.module "translationTypesetting", [
   "ngResource"
+  "ngCookies"
 ]
 
 
@@ -17,13 +18,49 @@ translationTypesetting.config ($routeProvider) ->
 
   $routeProvider.when "/translations/:translationId",
     templateUrl: "/views/translation.html"
+    controller: "TranslationCtrl"
+
+translationTypesetting.config ($httpProvider) ->
+  $httpProvider.responseInterceptors.push ($location, $cookieStore) ->
+    (promise) ->
+      success = (response) ->
+        response
+
+      error = (response) ->
+        if response.status == 401
+          $cookieStore.remove "token"
+          $location.path "/"
+        response
+
+      promise.then success, error
 
 translationTypesetting.factory "Translation", ($resource) ->
   $resource "/translations/:_id"
 
-translationTypesetting.controller "SigninCtrl", ($scope, $location) ->
+translationTypesetting.factory "user", ($resource, $http, $cookieStore) ->
+  setToken = (token) ->
+    $http.defaults.headers.common.Authorization = "Token #{token}"
+    
+  if $cookieStore.get "username" and $cookieStore.get "token"
+    promise = $http.get("/sessions/#{$cookieStore.get "token"}")
+    promise.success (data, status) ->
+      setToken $cookieStore.get "token" if status is 200
+      $cookieStore.remove "token" if status is 404
+
+  setToken: setToken
+
+translationTypesetting.controller "SigninCtrl", ($scope, $http, $location, $cookieStore, user) ->
+  $scope.user = {}
+
   $scope.signin = ->
-    $location.path "/translations"
+    promise = $http.post("/sessions", $scope.user)
+    promise.success (auth, status) ->
+      $cookieStore.put "username", $scope.user.username
+      $cookieStore.put "token", auth.token if auth.token
+
+      user.setToken auth.token
+
+      $location.path "/translations"
 
 translationTypesetting.filter "id", ->
   (id) ->
@@ -36,6 +73,9 @@ translationTypesetting.filter "date", ->
 
 translationTypesetting.controller "TranslationsCtrl", ($scope, Translation) ->
   $scope.translations = Translation.query()
+
+translationTypesetting.controller "TranslationCtrl", ($scope, $http, $routeParams, Translation) ->
+  $scope.translations = Translation.query _id: $routeParams.translationId
 
 translationTypesetting.directive "nav", ($location) ->
   restrict: "C"
