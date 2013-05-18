@@ -1,0 +1,27 @@
+h1.title From Russian to English
+
+table.translations
+  thead
+    tr
+      th.translations-title Id
+      th.translations-title Customer
+      th.translations-title Words
+      th.translations-title Receive Date
+      th.translations-title Due Date
+
+  tbody
+    tr.translations-row
+      td.translations-cell 00FCBF1
+      td.translations-cell LLC Imagination Agency
+      td.translations-cell 1300
+      td.translations-cell 05/18/13 12:29pm
+      td.translations-cell 05/19/13 12:29pm
+
+table.translation
+  tr(ng-repeat="a in [null, null, null, null, null]")
+    td.translation-source Селекция бренда допускает конструктивный медиамикс, оптимизируя бюджеты.
+    td.translation-translation
+      textarea.autoresize.translation-translation-textarea Selection of the brand allows a constructive media mix, optimizing budgets.
+
+.signin-buttons
+  button.signin-buttons-button(type="submit") done

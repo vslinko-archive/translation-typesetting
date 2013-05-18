@@ -2,25 +2,24 @@ doctype 5
 html
   head
     title Translation Typesetting
+
     link(rel="stylesheet", href="http://fonts.googleapis.com/css?family=Roboto:400,900italic,900,700italic,700,500,500italic,400italic,300italic,300,100,100italic&subset=latin,cyrillic")
     link(rel="stylesheet", href="/styles/index.css")
-  body
+
+    script(src="/components/jquery/jquery.js")
+    script(src="/components/angular/angular.js")
+    script(src="/scripts/index.js")
+
+  body(ng-app="translationTypesetting")
     .container
       header.header
         p.logo Translation Typesetting
 
-      section.content
-        h1.title Sign in
+        nav.nav
+          a.nav-link(href="#!/translations") Inbox
+          a.nav-link(href="#!/") Sign out
 
-        form.signin
-          label.signin-label(for="email") Email
-          input.signin-input#email(type="text")
-
-          label.signin-label(for="password") Password
-          input.signin-input#password(type="password")
-
-          .signin-buttons
-            button.signin-buttons-button(type="submit") sign in
+      section.content(ng-view)
 
       footer.footer
         p.copyrights &copy; 2013 Translation Typesetting

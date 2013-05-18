@@ -6,6 +6,9 @@ yellow = #FFFFCC
 global-reset()
 reset-html5()
 
+a
+  color red
+
 body
   margin 0
   font-family Roboto
@@ -18,8 +21,10 @@ body
 
 .header
   padding 30px
+  clearfix()
 
 .logo
+  float left
   font-size 32px
   font-weight 100
   color white
@@ -66,3 +71,39 @@ body
 .copyrights
   color white
   text-align right
+
+.nav
+  float right
+
+.nav-link
+  display inline-block
+  margin-left 30px
+  color white
+  line-height 32px
+
+.translations
+  width 100%
+
+.translations-title
+  padding 10px 0
+
+.translations-cell
+  padding 10px 0
+  font-size 24px
+
+.translation
+  margin 30px 0 20px
+
+.translation-source
+  width 50%
+  vertical-align top
+  padding-bottom 10px
+
+.translation-translation
+  width 50%
+  vertical-align top
+  padding-bottom 10px
+
+.translation-translation-textarea
+  width 100%
+  font-size 16px

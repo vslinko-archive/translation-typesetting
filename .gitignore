@@ -10,7 +10,7 @@
 /public/uploads/
 
 # ignore generated files
-/public/component.json
+/.components
 /npm-debug.log
 
 # Ignore config

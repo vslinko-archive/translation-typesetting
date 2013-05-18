@@ -1,0 +1,19 @@
+h1.title Inbox
+
+table.translations
+  thead
+    tr
+      th.translations-title Id
+      th.translations-title Customer
+      th.translations-title Words
+      th.translations-title Receive Date
+      th.translations-title Due Date
+
+  tbody
+    tr.translations-row(ng-repeat="a in [null, null, null, null, null]")
+      td.translations-cell
+        a(href="#!/translations/00FCBF1") 00FCBF1
+      td.translations-cell LLC Imagination Agency
+      td.translations-cell 1300
+      td.translations-cell 05/18/13 12:29pm
+      td.translations-cell 05/19/13 12:29pm
