@@ -6,7 +6,9 @@ loader = container.get "loader"
 
 container.set "components", [
   "jquery#~1.9"
+  "datejs"
   "angular#~1.0"
+  "angular-resource#~1.0"
 ]
 
 loader.use require "symfio-contrib-express"

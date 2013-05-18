@@ -31,6 +31,8 @@ module.exports = (container, callback) ->
 
   Translation = connection.model "translations", TranslationSchema
 
+  app.get "/translations", cruder.list Translation.find()
+
   app.post "/translations", (req, res) ->
     return res.send 401 unless req.user
 
