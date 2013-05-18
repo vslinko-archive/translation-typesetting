@@ -32,6 +32,8 @@
   , "symfio-contrib-bower": "~0.1"
   , "symfio-contrib-express-logger": "~0.1"
   , "symfio-contrib-mongoose": "~0.1"
+  , "symfio-contrib-fixtures": "~0.1"
+  , "symfio-contrib-auth": "~0.1"
   , "cruder": "~0.1"
   }
 , "devDependencies": {
