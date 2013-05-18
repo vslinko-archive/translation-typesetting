@@ -22,7 +22,7 @@
   , "url": "https://github.com/vslinko/translation-typesetting"
   }
 , "scripts": {
-    "start": "coffee index.coffee"
+    "start": "npm install && coffee index.coffee"
   , "test": "grunt"
   }
 , "dependencies": {
