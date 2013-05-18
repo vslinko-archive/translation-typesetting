@@ -29,6 +29,7 @@
     "symfio": "~1.0"
   , "symfio-contrib-assets": "~0.2"
   , "symfio-contrib-express": "~0.1"
+  , "symfio-contrib-bower": "~0.1"
   , "symfio-contrib-express-logger": "~0.1"
   , "symfio-contrib-mongoose": "~0.1"
   , "cruder": "~0.1"
