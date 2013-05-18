@@ -11,6 +11,7 @@ loader.use require "symfio-contrib-mongoose"
 loader.use require "symfio-contrib-auth"
 loader.use require "./plugins/translation-typesetting"
 loader.use require "./plugins/calculations"
+loader.use require "./plugins/translations"
 loader.use require "symfio-contrib-fixtures"
 
 loader.load() if require.main is module
