@@ -7,6 +7,7 @@ loader = container.get "loader"
 container.set "components", [
   "jquery#~1.9"
   "datejs"
+  "lodash#~1.2"
   "angular#~1.0"
   "angular-resource#~1.0"
 ]

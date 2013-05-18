@@ -34,6 +34,11 @@ translationTypesetting.filter "date", ->
     date = new Date date
     date.toString "MM/dd/yyyy hh:mmtt"
 
+translationTypesetting.filter "isNotReady", ->
+  (translations) ->
+    _.filter translations, (translation) ->
+      not translation.done
+
 translationTypesetting.controller "TranslationsCtrl", ($scope, Translation) ->
   $scope.translations = Translation.query()
 

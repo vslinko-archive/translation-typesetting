@@ -16,6 +16,7 @@ module.exports = (container, callback) ->
     customer:
       type: String
       required: true
+    done: type: Boolean, default: false
 
   Translation = connection.model "translations", TranslationSchema
 
