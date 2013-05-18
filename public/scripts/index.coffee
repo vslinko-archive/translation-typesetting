@@ -1,5 +1,6 @@
 translationTypesetting = angular.module "translationTypesetting", [
   "ngResource"
+  "ui.ace"
 ]
 
 
@@ -15,8 +16,12 @@ translationTypesetting.config ($routeProvider) ->
     templateUrl: "/views/translations.html"
     controller: "TranslationsCtrl"
 
-  $routeProvider.when "/translations/:translationId",
-    templateUrl: "/views/translation.html"
+  $routeProvider.when "/translations/:translationId/html",
+    templateUrl: "/views/editor-html.html"
+    controller: "TranslationCtrl"
+
+  $routeProvider.when "/translations/:translationId/text",
+    templateUrl: "/views/editor-text.html"
     controller: "TranslationCtrl"
 
 translationTypesetting.factory "Translation", ($resource) ->
@@ -39,12 +44,12 @@ translationTypesetting.controller "TranslationsCtrl", ($scope, Translation) ->
   $scope.translations = Translation.query()
 
 translationTypesetting.controller "TranslationCtrl", ($scope, $http, $routeParams, Translation) ->
-  $scope.translations = Translation.query _id: $routeParams.translationId
-  
-  $scope.save = (done = false) ->
-    (new Translation translations: $scope.translations, done: done).$save
-      _id: $routeParams.translationId
+  Translation.get _id: $routeParams.translationId, (translation) ->
+    $scope.translation = translation
 
+  $scope.save = (done = false) ->
+    $scope.translation.$save
+      _id: $routeParams.translationId
 
 translationTypesetting.directive "nav", ($location) ->
   restrict: "C"

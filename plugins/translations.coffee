@@ -21,10 +21,11 @@ module.exports = (container, callback) ->
   TranslationSchema = new mongoose.Schema
     callbackUrl: type: String, required: true
     content: type: String, required: true
-    translation: Array
+    translation: mongoose.Schema.Types.Mixed
     words: Number
     price: Number
-    done: Boolean, defaul: false
+    done: type: Boolean, default: false
+    type: type: String, default: "text"
     receiveDate: type: Date, default: Date.now
     dueDate: type: Date
     customer:
@@ -40,6 +41,7 @@ module.exports = (container, callback) ->
     callbackUrl = params["callback-url"]
     language = params["language"]
     content = params["content"]
+    type = params["type"]
     
     return res.send 500 unless language and content and callbackUrl
 
@@ -51,13 +53,14 @@ module.exports = (container, callback) ->
     translation = new Translation
       callbackUrl: callbackUrl
       content: content
-      translation: convertContent content
-      words: calculate.words content
-      price: calculate.price from, to, content
+      translation: if type == "html" then content else convertContent content
+      words: calculate.words content, type
+      price: calculate.price from, to, content, type
       dueDate: calculate.time()
       customer: req.user.username
       languageFrom: from
       languageTo: to
+      type: type or "text"
 
     translation.save (err) ->
       return res.send 500 if err
@@ -71,13 +74,13 @@ module.exports = (container, callback) ->
     Translation.findOne _id: req.params.id, (err, translation) ->
       return res.send 500 if err
 
-      res.send translation.translation
+      res.send translation
 
   app.post "/translations/:id", (req, res) ->
     Translation.findOne _id: req.params.id, (err, translation) ->
       return res.send 500 if err
 
-      translation.translation = req.body.translations
+      translation.translation = req.body.translation
       translation.done = true if req.body.done
       translation.save (err) ->
         return res.send 500 if err
@@ -99,6 +102,6 @@ module.exports = (container, callback) ->
             .send(data)
             .end()
 
-        res.send 200
+        res.send translation
 
   callback()

@@ -1,0 +1,12 @@
+extends translation
+
+block edit
+  table.translation
+    tr(ng-repeat="part in translation.translation")
+  
+      td.translation-source(ng-show="part.content") {{ part.content }}
+      td.translation-translation(ng-show="part.content")
+        textarea.translation-translation-textarea(ng-model="part.translation") {{ part.translation }} #autoresize
+  
+      td(colspan="2", ng-hide="part.content")
+        hr.translation-break

@@ -17,14 +17,7 @@ table.translations
       td.translations-cell 05/18/13 12:29pm
       td.translations-cell 05/19/13 12:29pm
 
-table.translation
-  tr(ng-repeat="translation in translations")
-    td.translation-source(ng-show="translation.content") {{ translation.content }}
-    td.translation-translation(ng-show="translation.content")
-      textarea.autoresize.translation-translation-textarea(ng-model="translation.translation") {{ translation.translation }}
-
-    td(colspan="2", ng-hide="translation.content")
-      hr.translation-break
+block edit
 
 .signin-buttons
   button.signin-buttons-button(type="submit", ng-click="save()", style="margin-right:10px;") save

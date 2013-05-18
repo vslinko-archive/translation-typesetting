@@ -12,7 +12,7 @@ table.translations
   tbody
     tr.translations-row(ng-repeat="translation in translations")
       td.translations-cell
-        a(href="#!/translations/{{ translation._id }}") {{ translation._id | id }}
+        a(href="#!/translations/{{ translation._id }}/{{ translation.type || 'text' }}") {{ translation._id | id }}
       td.translations-cell {{ translation.customer }}
       td.translations-cell {{ translation.words }}
       td.translations-cell {{ translation.dueDate | date }}

@@ -1,0 +1,8 @@
+extends translation
+
+block edit
+  table.translation
+    tr
+      td.translation-source(ng-bind-html-unsafe="translation.translation")
+      td.translation-translation
+        div(ui-ace="{useWrapMode: true, showGutter: false, mode: 'xml'}", ng-model="translation.translation")
