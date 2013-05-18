@@ -21,10 +21,11 @@ table.translation
   tr(ng-repeat="translation in translations")
     td.translation-source(ng-show="translation.content") {{ translation.content }}
     td.translation-translation(ng-show="translation.content")
-      textarea.autoresize.translation-translation-textarea {{ translation.translation }}
+      textarea.autoresize.translation-translation-textarea(ng-model="translation.translation") {{ translation.translation }}
 
     td(colspan="2", ng-hide="translation.content")
       hr.translation-break
 
 .signin-buttons
-  button.signin-buttons-button(type="submit") done
+  button.signin-buttons-button(type="submit", ng-click="save()", style="margin-right:10px;") save
+  button.signin-buttons-button(type="submit", ng-click="save(true)") done

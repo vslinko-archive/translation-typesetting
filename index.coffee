@@ -9,7 +9,6 @@ container.set "components", [
   "datejs"
   "angular#~1.0"
   "angular-resource#~1.0"
-  "angular-cookies#~1.0"
 ]
 
 loader.use require "symfio-contrib-express"

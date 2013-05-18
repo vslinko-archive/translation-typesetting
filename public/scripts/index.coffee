@@ -1,6 +1,5 @@
 translationTypesetting = angular.module "translationTypesetting", [
   "ngResource"
-  "ngCookies"
 ]
 
 
@@ -20,46 +19,11 @@ translationTypesetting.config ($routeProvider) ->
     templateUrl: "/views/translation.html"
     controller: "TranslationCtrl"
 
-translationTypesetting.config ($httpProvider) ->
-  $httpProvider.responseInterceptors.push ($location, $cookieStore) ->
-    (promise) ->
-      success = (response) ->
-        response
-
-      error = (response) ->
-        if response.status == 401
-          $cookieStore.remove "token"
-          $location.path "/"
-        response
-
-      promise.then success, error
-
 translationTypesetting.factory "Translation", ($resource) ->
   $resource "/translations/:_id"
 
-translationTypesetting.factory "user", ($resource, $http, $cookieStore) ->
-  setToken = (token) ->
-    $http.defaults.headers.common.Authorization = "Token #{token}"
-    
-  if $cookieStore.get "username" and $cookieStore.get "token"
-    promise = $http.get("/sessions/#{$cookieStore.get "token"}")
-    promise.success (data, status) ->
-      setToken $cookieStore.get "token" if status is 200
-      $cookieStore.remove "token" if status is 404
-
-  setToken: setToken
-
-translationTypesetting.controller "SigninCtrl", ($scope, $http, $location, $cookieStore, user) ->
-  $scope.user = {}
-
+translationTypesetting.controller "SigninCtrl", ($scope, $location) ->
   $scope.signin = ->
-    promise = $http.post("/sessions", $scope.user)
-    promise.success (auth, status) ->
-      $cookieStore.put "username", $scope.user.username
-      $cookieStore.put "token", auth.token if auth.token
-
-      user.setToken auth.token
-
       $location.path "/translations"
 
 translationTypesetting.filter "id", ->
@@ -76,6 +40,11 @@ translationTypesetting.controller "TranslationsCtrl", ($scope, Translation) ->
 
 translationTypesetting.controller "TranslationCtrl", ($scope, $http, $routeParams, Translation) ->
   $scope.translations = Translation.query _id: $routeParams.translationId
+  
+  $scope.save = (done = false) ->
+    (new Translation translations: $scope.translations, done: done).$save
+      _id: $routeParams.translationId
+
 
 translationTypesetting.directive "nav", ($location) ->
   restrict: "C"

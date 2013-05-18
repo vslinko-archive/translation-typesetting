@@ -23,6 +23,7 @@ module.exports = (container, callback) ->
     translation: Array
     words: Number
     price: Number
+    done: Boolean, defaul: false
     receiveDate: type: Date, default: Date.now
     dueDate: type: Date
     customer:
@@ -34,8 +35,6 @@ module.exports = (container, callback) ->
   app.get "/translations", cruder.list Translation.find()
 
   app.post "/translations", (req, res) ->
-    return res.send 401 unless req.user
-
     params = req.body
     callbackUrl = params["callback-url"]
     language = params["language"]
@@ -66,19 +65,20 @@ module.exports = (container, callback) ->
         "response-time": translation.dueDate
 
   app.get "/translations/:id", (req, res) ->
-    return res.send 401 unless req.user
-
     Translation.findOne _id: req.params.id, (err, translation) ->
       return res.send 500 if err
 
       res.send translation.translation
 
   app.post "/translations/:id", (req, res) ->
-    return res.send 401 unless req.user
-
     Translation.findOne _id: req.params.id, (err, translation) ->
       return res.send 500 if err
 
-      res.send 'slkdjdflk'
+      translation.translation = req.body.translations
+      translation.done = true if req.body.done
+      translation.save (err) ->
+        return res.send 500 if err
+
+        res.send 200
 
   callback()
