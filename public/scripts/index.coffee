@@ -1,4 +1,6 @@
-translationTypesetting = angular.module "translationTypesetting", []
+translationTypesetting = angular.module "translationTypesetting", [
+  "ngResource"
+]
 
 
 translationTypesetting.config ($locationProvider) ->
@@ -11,13 +13,29 @@ translationTypesetting.config ($routeProvider) ->
 
   $routeProvider.when "/translations",
     templateUrl: "/views/translations.html"
+    controller: "TranslationsCtrl"
 
   $routeProvider.when "/translations/:translationId",
     templateUrl: "/views/translation.html"
 
+translationTypesetting.factory "Translation", ($resource) ->
+  $resource "/translations/:_id"
+
 translationTypesetting.controller "SigninCtrl", ($scope, $location) ->
   $scope.signin = ->
     $location.path "/translations"
+
+translationTypesetting.filter "id", ->
+  (id) ->
+    id.slice 16, 24
+
+translationTypesetting.filter "date", ->
+  (date) ->
+    date = new Date date
+    date.toString "MM/dd/yyyy hh:mmtt"
+
+translationTypesetting.controller "TranslationsCtrl", ($scope, Translation) ->
+  $scope.translations = Translation.query()
 
 translationTypesetting.directive "nav", ($location) ->
   restrict: "C"
@@ -38,3 +56,4 @@ translationTypesetting.directive "autoresize", ->
 
     element.on "keyup", ->
       fitToContent()
+
