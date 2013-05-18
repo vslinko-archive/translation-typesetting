@@ -10,7 +10,7 @@ table.translations
       th.translations-title Due Date
 
   tbody
-    tr.translations-row(ng-repeat="translation in translations")
+    tr.translations-row(ng-repeat="translation in translations | isNotReady")
       td.translations-cell
         a(href="#!/translations/{{ translation._id }}/{{ translation.type || 'text' }}") {{ translation._id | id }}
       td.translations-cell {{ translation.customer }}

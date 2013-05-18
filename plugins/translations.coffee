@@ -81,7 +81,7 @@ module.exports = (container, callback) ->
       return res.send 500 if err
 
       translation.translation = req.body.translation
-      translation.done = true if req.body.done
+      translation.done = req.body.done
       translation.save (err) ->
         return res.send 500 if err
 
