@@ -16,6 +16,8 @@ module.exports = (container, callback) ->
   app = container.get "app"
 
   app.post "/calculations", (req, res) ->
+    res.send 401 unless req.user
+
     params = req.body
     language = params.language
     content = params.content
