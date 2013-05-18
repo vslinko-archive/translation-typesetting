@@ -1,3 +1,4 @@
+request = require "superagent"
 cruder = require "cruder"
 
 convertContent = (content) ->
@@ -55,6 +56,8 @@ module.exports = (container, callback) ->
       price: calculate.price from, to, content
       dueDate: calculate.time()
       customer: req.user.username
+      languageFrom: from
+      languageTo: to
 
     translation.save (err) ->
       return res.send 500 if err
@@ -78,6 +81,23 @@ module.exports = (container, callback) ->
       translation.done = true if req.body.done
       translation.save (err) ->
         return res.send 500 if err
+
+        if translation.done
+          data =
+            id: translation._id
+            price: translation.price
+            language:
+              from: translation.languageFrom
+              to: translation.languageTo
+            content:
+              original: translation.content
+              translation: translation.translation
+
+          request
+            .post(translation.callbackUrl)
+            .type("json")
+            .send(data)
+            .end()
 
         res.send 200
 

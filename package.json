@@ -35,6 +35,7 @@
   , "symfio-contrib-fixtures": "~0.1"
   , "symfio-contrib-auth": "~0.1"
   , "cruder": "~0.1"
+  , "superagent": "~0.14"
   }
 , "devDependencies": {
     "symfio-suite": "~1.0"
