@@ -1,3 +1,4 @@
+beautify = require("js-beautify").html
 request = require "superagent"
 cruder = require "cruder"
 
@@ -11,6 +12,17 @@ convertContent = (content) ->
           translation: part
     data.push "-"
   data
+  
+combineContent = (combine) ->
+  content = ""
+  combine.forEach (part) ->
+    if part == "-"
+      content += "\n"
+    else
+      content += part.translation
+      content += " "
+  content
+    
 
 module.exports = (container, callback) ->
   connection = container.get "connection"
@@ -53,7 +65,8 @@ module.exports = (container, callback) ->
     translation = new Translation
       callbackUrl: callbackUrl
       content: content
-      translation: if type == "html" then content else convertContent content
+      translation: if type == "html" \
+        then beautify content else convertContent content
       words: calculate.words content, type
       price: calculate.price from, to, content, type
       dueDate: calculate.time()
@@ -80,10 +93,13 @@ module.exports = (container, callback) ->
     Translation.findOne _id: req.params.id, (err, translation) ->
       return res.send 500 if err
 
-      translation.translation = req.body.translation
+      translations = translation.translation = req.body.translation
       translation.done = req.body.done
       translation.save (err) ->
         return res.send 500 if err
+
+        if translation.type == "text"
+          translations = combineContent translations
 
         if translation.done
           data =
@@ -94,7 +110,7 @@ module.exports = (container, callback) ->
               to: translation.languageTo
             content:
               original: translation.content
-              translation: translation.translation
+              translation: translations
 
           request
             .post(translation.callbackUrl)

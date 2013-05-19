@@ -55,7 +55,7 @@ translationTypesetting.controller "TranslationCtrl", ($scope, $http, $routeParam
     return unless $scope.editor
     
     editor = $scope.editor
-    editor.setFontSize "18px"
+    editor.setFontSize "16px"
 
   $scope.save = (done = false) ->
     $scope.translation.done = done

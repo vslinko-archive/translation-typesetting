@@ -2,7 +2,7 @@ table.translation.translation-html
   tr
     td.translation-source(ng-bind-html-unsafe="translation.translation")
     td.translation-translation
-      div(ui-ace="{useWrapMode: false, showGutter: false, mode: 'xml', theme:'xcode'}", scope-instance="editor", ng-model="translation.translation")
+      div(ui-ace="{useWrapMode: true, showGutter: true, mode: 'xml', theme:'xcode'}", scope-instance="editor", ng-model="translation.translation")
 
 .save-buttons
   button.save-buttons-button(type="submit", ng-click="save()") Save
