@@ -1,12 +1,14 @@
-extends translation
 
-block edit
-  table.translation
-    tr(ng-repeat="part in translation.translation")
+table.translation.translation-text
+  tr(ng-repeat="part in translation.translation")
+
+    td.translation-source(ng-show="part.content") {{ part.content }}
+    td.translation-translation(ng-show="part.content")
+      textarea.translation-translation-textarea(ng-model="part.translation") {{ part.translation }} #autoresize
   
-      td.translation-source(ng-show="part.content") {{ part.content }}
-      td.translation-translation(ng-show="part.content")
-        textarea.translation-translation-textarea(ng-model="part.translation") {{ part.translation }} #autoresize
-  
-      td(colspan="2", ng-hide="part.content")
-        hr.translation-break
+    td(colspan="2", ng-hide="part.content")
+      hr.translation-break
+
+.save-buttons
+  button.save-buttons-button(type="submit", ng-click="save()") Save
+  button.save-buttons-button(type="submit", ng-click="save(true)") Done

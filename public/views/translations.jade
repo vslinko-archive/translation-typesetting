@@ -1,19 +1,20 @@
-h1.title Inbox
+//h1.title Inbox
 
-table.translations
-  thead
-    tr
-      th.translations-title Id
-      th.translations-title Customer
-      th.translations-title Words
-      th.translations-title Receive Date
-      th.translations-title Due Date
-
-  tbody
-    tr.translations-row(ng-repeat="translation in translations")
-      td.translations-cell
-        a(href="#!/translations/{{ translation._id }}/{{ translation.type || 'text' }}") {{ translation._id | id }}
-      td.translations-cell {{ translation.customer }}
-      td.translations-cell {{ translation.words }}
-      td.translations-cell {{ translation.dueDate | date }}
-      td.translations-cell {{ translation.receiveDate | date }}
+div.translations-list
+  table.translations
+    thead
+      tr
+        th.translations-title Id
+        th.translations-title Customer
+        th.translations-title Words
+        th.translations-title Receive Date
+        th.translations-title Due Date
+  
+    tbody
+      tr.translations-row(ng-repeat="translation in translations")
+        td.translations-cell
+          a(href="#!/translations/{{ translation._id }}/{{ translation.type || 'text' }}") {{ translation._id | id }}
+        td.translations-cell {{ translation.customer }}
+        td.translations-cell {{ translation.words }}
+        td.translations-cell {{ translation.dueDate | date }}
+        td.translations-cell {{ translation.receiveDate | date }}

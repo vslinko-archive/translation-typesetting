@@ -47,6 +47,11 @@ translationTypesetting.controller "TranslationCtrl", ($scope, $http, $routeParam
   Translation.get _id: $routeParams.translationId, (translation) ->
     $scope.translation = translation
 
+    return unless $scope.editor
+    
+    editor = $scope.editor
+    editor.setFontSize "18px"
+
   $scope.save = (done = false) ->
     $scope.translation.$save
       _id: $routeParams.translationId
@@ -55,7 +60,7 @@ translationTypesetting.directive "nav", ($location) ->
   restrict: "C"
   link: (scope, element, attrs) ->
     do check = ->
-      element.css "display", if $location.url() == "/" then "none" else "block"
+      element.css "visibility", if $location.url() == "/" then "hidden" else "visible"
 
     scope.$on "$routeChangeSuccess", ->
       check()
@@ -70,4 +75,19 @@ translationTypesetting.directive "autoresize", ->
 
     element.on "keyup", ->
       fitToContent()
+
+translationTypesetting.directive "container", ->
+  restrict: "C"
+  link: (scope, element) ->
+    container = $(element)
+    content = container.find ".content"
+    header = container.find ".header"
+    footer = container.find ".footer"
+    
+    height = $(document).height()
+    contentHeight = height - footer.outerHeight() - header.outerHeight()
+
+    container.height height
+    content.height contentHeight
+
 
