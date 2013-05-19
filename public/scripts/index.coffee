@@ -47,6 +47,10 @@ translationTypesetting.filter "isNotReady", ->
 
 translationTypesetting.controller "TranslationsCtrl", ($scope, Translation) ->
   $scope.translations = Translation.query()
+  
+  socket = io.connect()
+  socket.on "update", ->
+    $scope.translations = Translation.query()
 
 translationTypesetting.controller "TranslationCtrl", ($scope, $http, $routeParams, Translation) ->
   Translation.get _id: $routeParams.translationId, (translation) ->

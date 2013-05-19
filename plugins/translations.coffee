@@ -1,6 +1,7 @@
 beautify = require("js-beautify").html
 request = require "superagent"
 cruder = require "cruder"
+socket = require "socket.io"
 
 convertContent = (content) ->
   data = []
@@ -28,7 +29,9 @@ module.exports = (container, callback) ->
   connection = container.get "connection"
   calculate = container.get "calculate"
   mongoose = container.get "mongoose"
+  server = container.get "server"
   app = container.get "app"
+  io = socket.listen server
 
   TranslationSchema = new mongoose.Schema
     callbackUrl: type: String, required: true
@@ -77,7 +80,9 @@ module.exports = (container, callback) ->
 
     translation.save (err) ->
       return res.send 500 if err
-  
+
+      io.sockets.emit "update"
+
       res.send
         "id": translation._id
         "price": translation.price
