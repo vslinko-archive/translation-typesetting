@@ -40,6 +40,11 @@ translationTypesetting.filter "date", ->
     date = new Date date
     date.toString "MM/dd/yyyy hh:mmtt"
 
+translationTypesetting.filter "isNotReady", ->
+  (translations) ->
+    _.filter translations, (translation) ->
+      not translation.done
+
 translationTypesetting.controller "TranslationsCtrl", ($scope, Translation) ->
   $scope.translations = Translation.query()
 
@@ -53,8 +58,12 @@ translationTypesetting.controller "TranslationCtrl", ($scope, $http, $routeParam
     editor.setFontSize "18px"
 
   $scope.save = (done = false) ->
+    $scope.translation.done = done
     $scope.translation.$save
       _id: $routeParams.translationId
+    , ->
+      if done
+        window.location.href = "/#!/translations"
 
 translationTypesetting.directive "nav", ($location) ->
   restrict: "C"
